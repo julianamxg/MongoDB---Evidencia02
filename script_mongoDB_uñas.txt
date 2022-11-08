@@ -1,0 +1,117 @@
+db.help()
+help
+show dbs
+use uñas
+db
+db.createCollection('usuario')
+db.createCollection('manicurista')
+db.createCollection('cita')
+
+db.usuario.insert({"_idUsuario":1, "nombre": "Luciana", "apellido": "Melo", "numDocumento": 1028652598, "numCelular": 3507654328})
+db.usuario.insert({"_idUsuario":2, "nombre": "Juan", "apellido": "Ruiz", "numDocumento": 1098765423, "numCelular": 3106793451})
+db.usuario.insert({"_idUsuario":3, "nombre": "Steven", "apellido": "Urrego", "numDocumento": 1022355578, "numCelular": 3152705651})
+db.usuario.insert({"_idUsuario":4, "nombre": "Ferney", "apellido": "Rodriguez", "numDocumento": 1015674289, "numCelular": 3127653409})
+db.usuario.insert({"_idUsuario":5, "nombre": "Isabella", "apellido": "Carrizosa", "numDocumento": 1034567892, "numCelular": 3119873254})
+
+db.manicurista.insertMany([
+{"_idManicurista":1, 
+"nombre": "Maria", 
+"apellido": "Fernandez", 
+"numCelular": 3908798767,
+ "estado": "Disponible"},
+
+ {"_idManicurista":2, 
+"nombre": "Jorge", 
+"apellido": "Moncada", 
+"numCelular": 3124537898, 
+"estado": "Ocupado"},
+
+ {"_idManicurista":3,
+ "nombre": "Laura", 
+"apellido": "Sanchez", 
+"numCelular": 3987653432, 
+"estado": "Disponible"},
+
+{"_idManicurista":4, 
+"nombre": "Paula", 
+"apellido": "Calderon",
+ "numCelular": 3509876432,
+ "estado": "Ocupado"}, 
+
+{"_idManicurista":5, 
+"nombre": "Lorena", 
+"apellido": "Rodriguez", 
+"numCelular": 3134679876,
+ "estado": "Disponible"}]
+)
+
+
+db.cita.insertMany([
+{"_idCita":1, 
+"idUsuario": 1, 
+"idManicurista": 3, 
+"Fecha": new Date(),
+"Hora": "08:30:00",
+"tipoUñas": "Semipermanente"},
+
+ {"_idCita":2, 
+"idUsuario": 3, 
+"idManicurista": 2, 
+"Fecha": new Date(),
+"Hora": "09:30:00",
+"tipoUñas": "Esculpidas acrilicas"},
+
+ {"_idCita":3,
+"idUsuario": 2, 
+"idManicurista": 4, 
+"Fecha": new Date(),
+"Hora": "09:30:00",
+"tipoUñas": "Semipermanente"},
+
+{"_idCita":4, 
+"idUsuario": 4, 
+"idManicurista": 5, 
+"Fecha": new Date(),
+"Hora": "11:30:00",
+"tipoUñas": "Tradicional"},
+
+{"_idCita":5, 
+"idUsuario": 5, 
+"idManicurista": 1, 
+"Fecha": new Date(),
+"Hora": "13:30:00",
+"tipoUñas": "Tips acrilicas"}
+])
+
+//Consultas manicurista
+db.manicurista.find(
+    {estado:"Disponible"}
+  ).pretty()
+
+db.manicurista.find({ numCelular: {$ne:3509876432}})
+
+db.manicurista.find({ $and: [{numCelular:3134679876},{nombre:"Lorena" }]})
+
+
+db.manicurista.find(
+    {estado:"Ocupado"}
+  ).pretty()
+
+db.manicurista.find({estado: {$not:{$eq:'Ocupado'}} })
+
+//consultas usuario
+db.usuario.find({ nombre: { $ne:"Luciana"}})
+db.usuario.find(
+    {apellido:"Carrizosa"}
+  ).pretty()
+db.usuario.find({ $and: [{"numDocumento": 1034567892, "numCelular": 3119873254}]})
+db.usuario.find({apellido: {$not:{$eq:'Urrego'}} })
+db.usuario.find({ numDocumento: { $eq:1034567892}})
+
+//Consultas cita
+db.cita.find({ idManicurista: { $gt:3}})
+db.cita.find({ tipoUñas: { $ne:"Semipermanente"}})
+
+db.cita.find({ $and: [{"Hora": "09:30:00", "tipoUñas": "Semipermanente"}]})
+db.cita.find({ idUsuario: { $lt:4}})
+db.cita.find({ tipoUñas: { $eq:"Semipermanente"}})
