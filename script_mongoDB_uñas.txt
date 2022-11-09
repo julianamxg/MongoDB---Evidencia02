@@ -83,21 +83,21 @@ db.cita.insertMany([
 "tipoUñas": "Tips acrilicas"}
 ])
 
+
 //Consultas manicurista
 db.manicurista.find(
     {estado:"Disponible"}
   ).pretty()
 
 db.manicurista.find({ numCelular: {$ne:3509876432}})
-
 db.manicurista.find({ $and: [{numCelular:3134679876},{nombre:"Lorena" }]})
-
 
 db.manicurista.find(
     {estado:"Ocupado"}
   ).pretty()
 
 db.manicurista.find({estado: {$not:{$eq:'Ocupado'}} })
+
 
 //consultas usuario
 db.usuario.find({ nombre: { $ne:"Luciana"}})
@@ -111,7 +111,55 @@ db.usuario.find({ numDocumento: { $eq:1034567892}})
 //Consultas cita
 db.cita.find({ idManicurista: { $gt:3}})
 db.cita.find({ tipoUñas: { $ne:"Semipermanente"}})
-
 db.cita.find({ $and: [{"Hora": "09:30:00", "tipoUñas": "Semipermanente"}]})
 db.cita.find({ idUsuario: { $lt:4}})
 db.cita.find({ tipoUñas: { $eq:"Semipermanente"}})
+
+
+//Actualizaciones manicurista
+db.manicurista.updateOne(
+{nombre: {$eq: "Paula"}},{
+  $set: { "nombre": "Alejandra" }}) 
+
+
+db.manicurista.updateOne(
+{apellido: {$eq: "Fernandez"}},
+{$set: { "apellido": "Ruiz", "nombre": "Luna" }}) 
+
+
+db.manicurista.updateMany(
+{estado: {$eq: "Disponible"}},{
+$set: { "estado": "En espera"}}) 
+
+
+db.manicurista.updateOne(
+{"nombre": {$eq: "Camila"}},{
+$set: { "nombre": "Camila", "estado" : "Ocupado"}},
+{upsert:true})
+
+db.manicurista.updateMany(
+{estado: {$ne: "Ocupado"}},{
+$set: { "estado": "Disponible"}}) 
+
+
+//Actualizaciones usuario
+db.usuario.updateOne(
+{nombre: {$eq: "Steven"}},{
+  $set: { "nombre": "Harold" }}) 
+
+db.usuario.updateOne(
+{"nombre": {$eq: "Valentina"}},{
+$set: { "nombre": "Valentina", "numDocumento" : 1234567891}},
+{upsert:true})
+
+db.usuario.updateOne(
+{numCelular: {$eq: 3507654328}},{
+  $set: { "numCelular": 3207344568 }}) 
+
+db.usuario.updateOne(
+{apellido: {$eq: "Rodriguez"}},{
+  $set: { "numCelular": 3044098765 }}) 
+
+db.usuario.updateMany(
+{idUsuario: {$ne: 2}},{
+  $set: { "nombre": "Santiago" }}) 
