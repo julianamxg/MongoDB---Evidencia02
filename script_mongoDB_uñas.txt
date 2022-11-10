@@ -163,3 +163,32 @@ db.usuario.updateOne(
 db.usuario.updateMany(
 {idUsuario: {$ne: 2}},{
   $set: { "nombre": "Santiago" }}) 
+
+
+//Actualizaciones cita
+db.cita.updateOne(
+{Hora: {$eq: "13:30:00"}},{
+  $set: { "Hora": "14:00:00" }}) 
+
+db.cita.updateMany(
+{idManicurista: {$eq: 5}},{
+  $set: { idManicurista: 1 }}) 
+
+db.cita.updateOne(
+{"tipoUñas": {$eq: "En gel"}},{
+$set: { "idManicurista": 5, "idUsuario" : 2, "tipoUñas":"En gel"}},
+{upsert:true})
+
+db.cita.updateOne(
+{idCita: {$ne: 4}},{
+  $set: { "tipoUñas": "Semipermanente" }})
+
+db.cita.update({'Hora':'09:30:00'},{$set:{'idUsuario':5}})
+
+
+//Eliminaciones
+db.manicurista.remove({"nombre" : "Camila"});
+db.manicurista.deleteOne({_idManicurista : 4});
+db.cita.deleteMany({Hora : {$ne:"09:30:00"}});
+db.cita.deleteOne({idUsuario : {$lt:5}});
+db.usuario.remove({_idUsuario : 2});
